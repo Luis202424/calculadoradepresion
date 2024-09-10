@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presión Arterial</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url(file:///C:/Users/Luis%20Octavio/Downloads/simi.jpg) no-repeat center center fixed;
+            background-size: cover;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #4b6584;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4b6584;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #d1d8e0;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #4b7bec;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #3867d6;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 1.1em;
+            color: #4b6584;
+            transition: background-color 0.3s ease;
+        }
+        h2 {
+            text-align: center;
+            color: #4b6584;
+            margin-top: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #d1d8e0;
+            padding: 12px;
+            text-align: center;
+            font-size: 1em;
+            color: #4b6584;
+        }
+        th {
+            background-color: #4b7bec;
+            color: #fff;
+        }
+        td {
+            background-color: #f7f9fc;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="formulario">
+        <h1>Calculadora de Presión Arterial</h1>
+        <label for="sistolica">Presión Sistólica (mm Hg):</label>
+        <input type="number" id="sistolica" required>
+        
+        <label for="diastolica">Presión Diastólica (mm Hg):</label>
+        <input type="number" id="diastolica" required>
+
+        <label for="pulso">Pulso (latidos por minuto):</label>
+        <input type="number" id="pulso" required>
+
+        <button type="button" onclick="calcularPresion()">Calcular</button>
+        <div id="resultado"></div>
+    </form>
+
+    <!-- Tabla de referencia -->
+    <h2>Tabla de Referencia de Presión Arterial</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Clasificación</th>
+                <th>Presión Sistólica (mm Hg)</th>
+                <th>Presión Diastólica (mm Hg)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Presión Baja</td>
+                <td>Menos de 90</td>
+                <td>Menos de 60</td>
+            </tr>
+            <tr>
+                <td>Presión Normal</td>
+                <td>90 - 120</td>
+                <td>60 - 80</td>
+            </tr>
+            <tr>
+                <td>Presión Elevada</td>
+                <td>120 - 140</td>
+                <td>80 - 90</td>
+            </tr>
+            <tr>
+                <td>Hipertensión Grado 1</td>
+                <td>140 - 159</td>
+                <td>90 - 99</td>
+            </tr>
+            <tr>
+                <td>Hipertensión Grado 2</td>
+                <td>160 - 179</td>
+                <td>100 - 109</td>
+            </tr>
+            <tr>
+                <td>Crisis Hipertensiva</td>
+                <td>180 o más</td>
+                <td>120 o más</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function calcularPresion() {
+            var sistolica = parseInt(document.getElementById("sistolica").value);
+            var diastolica = parseInt(document.getElementById("diastolica").value);
+            var pulso = parseInt(document.getElementById("pulso").value);
+            var resultado = document.getElementById("resultado");
+            var mensaje = "";
+            var colorFondo = "";
+
+            // Validar los valores
+            if (isNaN(sistolica) || isNaN(diastolica) || isNaN(pulso)) {
+                mensaje = "Por favor, introduce valores válidos.";
+                colorFondo = "#f8f9fa"; // color neutral
+            } else {
+                // Condiciones basadas en la presión sistólica y diastólica
+                if (sistolica < 90 || diastolica < 60) {
+                    mensaje = "Tu presión arterial es BAJA. Consulta a un médico si te sientes mal.";
+                    colorFondo = "#74b9ff"; // Azul para presión baja
+                } else if (sistolica >= 90 && sistolica <= 120 && diastolica >= 60 && diastolica <= 80) {
+                    mensaje = "Tu presión arterial es NORMAL. ¡Sigue cuidando tu salud!";
+                    colorFondo = "#55efc4"; // Verde para presión normal
+                } else if ((sistolica > 120 && sistolica <= 140) || (diastolica > 80 && diastolica <= 90)) {
+                    mensaje = "Tu presión arterial es ELEVADA. Es posible que estés en riesgo de hipertensión.";
+                    colorFondo = "#fdcb6e"; // Amarillo para presión elevada
+                } else if (sistolica > 140 || diastolica > 90) {
+                    mensaje = "Tu presión arterial es ALTA. Consulta a un médico.";
+                    colorFondo = "#ff7675"; // Rojo para presión alta
+                }
+
+                // Condición basada en el pulso
+                if (pulso < 60) {
+                    mensaje += " Además, tu pulso es bajo (bradicardia).";
+                } else if (pulso > 100) {
+                    mensaje += " Además, tu pulso es alto (taquicardia).";
+                }
+
+                // Riesgo de infarto: Alta presión y pulso elevado
+                if (sistolica > 180 || diastolica > 120) {
+                    mensaje = "¡Atención! Estás en riesgo de sufrir un infarto. Consulta a un médico urgentemente.";
+                    colorFondo = "#e74c3c"; // Rojo oscuro para riesgo de infarto
+                }
+            }
+
+            resultado.innerHTML = "<strong>Resultado:</strong> " + mensaje;
+            resultado.style.backgroundColor = colorFondo;
+        }
+    </script>
+
+</body>
+</html>
